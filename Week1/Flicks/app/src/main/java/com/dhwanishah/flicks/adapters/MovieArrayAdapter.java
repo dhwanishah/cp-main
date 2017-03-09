@@ -64,11 +64,15 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie> {
         if (orientation == Configuration.ORIENTATION_PORTRAIT) {
             viewHolder.ivPosterImage.setImageResource(0); // Clear out the image
             // Populate image from url with picasso library
-            Picasso.with(getContext()).load(movie.getPosterPath()).into(viewHolder.ivPosterImage);
+            Picasso.with(getContext()).load(movie.getPosterPath())
+                                        .placeholder(R.drawable.placeholder_image)
+                                        .into(viewHolder.ivPosterImage);
         } else if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
             viewHolder.ivBackdropImage.setImageResource(0); // Clear out the image
             // Populate image from url with picasso library
-            Picasso.with(getContext()).load(movie.getBackdropImage()).into(viewHolder.ivBackdropImage);
+            Picasso.with(getContext()).load(movie.getBackdropImage())
+                                        .placeholder(R.drawable.placeholder_image)
+                                        .into(viewHolder.ivBackdropImage);
         }
 
         viewHolder.tvTitle.setText(movie.getOriginalTitle());
