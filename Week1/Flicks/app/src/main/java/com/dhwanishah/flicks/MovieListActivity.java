@@ -3,7 +3,10 @@ package com.dhwanishah.flicks;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.dhwanishah.flicks.adapters.MovieArrayAdapter;
 import com.dhwanishah.flicks.models.Movie;
@@ -53,6 +56,14 @@ public class MovieListActivity extends AppCompatActivity {
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                 super.onFailure(statusCode, headers, throwable, errorResponse);
+            }
+        });
+
+        mMovieListview.setOnItemClickListener(new ListView.OnItemClickListener(){
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Movie movie = (Movie) mMovieListview.getItemAtPosition(position);
+                Toast.makeText(getApplicationContext(), position + "" + movie.getOriginalTitle(), Toast.LENGTH_LONG).show();
             }
         });
     }

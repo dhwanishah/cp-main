@@ -11,16 +11,20 @@ import java.util.ArrayList;
  */
 
 public class Movie {
+    int id;
     String posterPath;
     String backdropImage;
     String originalTitle;
     String overview;
+    double voteAverage;
 
     public Movie(JSONObject jsonObject) throws JSONException {
+        this.id = jsonObject.getInt("id");
         this.posterPath = jsonObject.getString("poster_path");
         this.backdropImage = jsonObject.getString("backdrop_path");
         this.originalTitle = jsonObject.getString("original_title");
         this.overview = jsonObject.getString("overview");
+        this.voteAverage = jsonObject.getDouble("vote_average");
     }
 
     public static ArrayList<Movie> fromJsonArray(JSONArray array) {
@@ -34,6 +38,8 @@ public class Movie {
         }
         return movies;
     }
+
+    public int getId() { return id; }
 
     public String getPosterPath() {
         return String.format("https://image.tmdb.org/t/p/w342%s", posterPath);
@@ -51,4 +57,5 @@ public class Movie {
         return overview;
     }
 
+    public double getVoteAverage() { return voteAverage; }
 }
