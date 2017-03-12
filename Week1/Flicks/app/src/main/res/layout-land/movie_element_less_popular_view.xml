@@ -23,6 +23,7 @@
         android:id="@+id/tvTitle"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
+        android:textColor="#ffffff"
         android:textSize="24sp" />
 
     <TextView
@@ -33,5 +34,6 @@
         android:layout_below="@+id/tvTitle"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
+        android:textColor="#ffffff"
         android:id="@+id/tvOverview" />
 </RelativeLayout>

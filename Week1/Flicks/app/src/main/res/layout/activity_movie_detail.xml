@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_movie_detail"
     android:layout_width="match_parent"
@@ -8,6 +9,62 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="#333333"
     tools:context="com.dhwanishah.flicks.MovieDetailActivity">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:src="@drawable/placeholder_image"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:id="@+id/ivMovieBackdropImage" />
 
-</RelativeLayout>
+        <RatingBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvTitle"
+            android:id="@+id/ratingBar"
+            android:numStars="10"
+            style="@style/Widget.AppCompat.RatingBar.Indicator" />
+
+        <TextView
+            tools:text="When a wounded Christian Grey tries to entice a cautious Ana Steele back into his life, she demands a new arrangement before she will give him another chance. As the two begin to build trust and find stability, shadowy figures from Christian’s past start to circle the couple, determined to destroy their hopes for a future together."
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ratingBar"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:id="@+id/tvOverview"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:textColor="#ffffff"
+            android:layout_alignParentBottom="true" />
+
+        <TextView
+            tools:text="Fifty Shades Darker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tvTitle"
+            android:layout_below="@+id/ivMovieBackdropImage"
+            android:layout_alignParentLeft="true"
+            android:textColor="#ffffff"
+            android:layout_alignParentStart="true"
+            android:textSize="24sp"
+            android:textStyle="normal|bold"
+            android:textAllCaps="true" />
+
+        <TextView
+            tools:text="2.5/10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/ratingScore"
+            android:layout_above="@+id/ratingBar"
+            android:layout_alignParentRight="true"
+            android:textColor="#ffffff"
+            android:layout_alignParentEnd="true" />
+    </RelativeLayout>
+</ScrollView>

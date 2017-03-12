@@ -186,7 +186,8 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie> {
                         vhp.ivBackdropImagePopular.setImageResource(0);
                         Picasso.with(getContext()).load(movie.getBackdropImage())
                                 .placeholder(R.drawable.placeholder_image)
-                                .transform(new RoundedCornersTransformation(10, 10))
+                                .transform(new RoundedCornersTransformation(20, 40))
+                                .fit()
                                 .into(vhp.ivBackdropImagePopular);
                     }
                 }
@@ -200,7 +201,7 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie> {
                     vhlp.tvTitle = (TextView) v2.findViewById(R.id.tvTitle);
                     vhlp.tvOverview = (TextView) v2.findViewById(R.id.tvOverview);
                     if (orientation == Configuration.ORIENTATION_PORTRAIT) {
-                        vhlp.ivPosterImage = (ImageView) v2.findViewById(R.id.ivMoviePosterImage);
+                        vhlp.ivPosterImage = (ImageView) v2.findViewById(R.id.ivMovieBackdropImage);
                     } else if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
                         vhlp.ivBackdropImage = (ImageView) v2.findViewById(R.id.ivMovieBackdropImage);
                     }
@@ -218,14 +219,14 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie> {
                             // Populate image from url with picasso library
                             Picasso.with(getContext()).load(movie1.getPosterPath())
                                     .placeholder(R.drawable.placeholder_image)
-                                    .transform(new RoundedCornersTransformation(10, 10))
+                                    .transform(new RoundedCornersTransformation(20, 40))
                                     .into(vhlp.ivPosterImage);
                         } else if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
                             vhlp.ivBackdropImage.setImageResource(0); // Clear out the image
                             // Populate image from url with picasso library
                             Picasso.with(getContext()).load(movie1.getBackdropImage())
                                     .placeholder(R.drawable.placeholder_image)
-                                    .transform(new RoundedCornersTransformation(10, 10))
+                                    .transform(new RoundedCornersTransformation(20, 40))
                                     .into(vhlp.ivBackdropImage);
                         }
                     }

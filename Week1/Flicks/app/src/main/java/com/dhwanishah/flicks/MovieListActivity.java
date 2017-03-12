@@ -1,12 +1,12 @@
 package com.dhwanishah.flicks;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.dhwanishah.flicks.adapters.MovieArrayAdapter;
 import com.dhwanishah.flicks.models.Movie;
@@ -19,20 +19,23 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import cz.msebera.android.httpclient.Header;
 
 public class MovieListActivity extends AppCompatActivity {
 
     ArrayList<Movie> mMovies = null;
     MovieArrayAdapter mMovieArrayAdapter;
-    ListView mMovieListview;
+    @BindView(R.id.lvMoviesList) ListView mMovieListview;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_list);
 
-        mMovieListview = (ListView) findViewById(R.id.lvMoviesList);
+        //mMovieListview = (ListView) findViewById(R.id.lvMoviesList);
+        ButterKnife.bind(this);
         mMovies = new ArrayList<>();
         mMovieArrayAdapter = new MovieArrayAdapter(getApplicationContext(), mMovies);
         mMovieListview.setAdapter(mMovieArrayAdapter);
@@ -63,7 +66,19 @@ public class MovieListActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Movie movie = (Movie) mMovieListview.getItemAtPosition(position);
-                Toast.makeText(getApplicationContext(), position + "" + movie.getOriginalTitle(), Toast.LENGTH_LONG).show();
+                Intent startMovieDetailActivity = new Intent(MovieListActivity.this, MovieDetailActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("originalTitle", movie.getOriginalTitle());
+                bundle.putString("overview", movie.getOverview());
+                bundle.putString("backdropImage", movie.getBackdropImage());
+                bundle.putDouble("voteAverage", movie.getVoteAverage());
+//                startMovieDetailActivity.putExtra("originalTitle", movie.getOriginalTitle());
+//                startMovieDetailActivity.putExtra("overview", movie.getOverview());
+//                startMovieDetailActivity.putExtra("voteAverage", Double.toString(movie.getVoteAverage()));
+                startMovieDetailActivity.putExtras(bundle);
+                startActivity(startMovieDetailActivity);
+
+                //Toast.makeText(getApplicationContext(), position + "" + movie.getOriginalTitle(), Toast.LENGTH_LONG).show();
             }
         });
     }
