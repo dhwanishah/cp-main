@@ -7,6 +7,7 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     android:orientation="vertical"
+    android:background="#e0e0e0"
     tools:context="com.dhwanishah.newsfeed.activities.MainNewsFeedActivity">
 
     <android.support.v7.widget.Toolbar
@@ -18,12 +19,11 @@
 
     </android.support.v7.widget.Toolbar>
 
-    <GridView
+    <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/newsFeedList"
-        android:numColumns="3">
+        android:id="@+id/newsFeedList">
 
-    </GridView>
+    </android.support.v7.widget.RecyclerView>
 
 </LinearLayout>

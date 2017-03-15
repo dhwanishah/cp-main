@@ -2,10 +2,11 @@ package com.dhwanishah.newsfeed.activities;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
-import android.widget.GridView;
 
 import com.dhwanishah.newsfeed.R;
 import com.dhwanishah.newsfeed.adapters.NewYorkTimesArrayAdapter;
@@ -25,7 +26,7 @@ import cz.msebera.android.httpclient.Header;
 
 public class MainNewsFeedActivity extends AppCompatActivity {
 
-    GridView resultsList;
+    RecyclerView resultsList;
     ArrayList<NewYorkTimeArticle> newYorkTimeArticles;
     NewYorkTimesArrayAdapter newYorkTimesArrayAdapter;
 
@@ -38,9 +39,11 @@ public class MainNewsFeedActivity extends AppCompatActivity {
         setSupportActionBar(mainToolbar);
 
         newYorkTimeArticles = new ArrayList<>();
-        resultsList = (GridView) findViewById(R.id.newsFeedList);
+        resultsList = (RecyclerView) findViewById(R.id.newsFeedList);
         newYorkTimesArrayAdapter = new NewYorkTimesArrayAdapter(getApplicationContext(), newYorkTimeArticles);
         resultsList.setAdapter(newYorkTimesArrayAdapter);
+        StaggeredGridLayoutManager gridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+        resultsList.setLayoutManager(gridLayoutManager);
 
 
         AsyncHttpClient client = new AsyncHttpClient();
@@ -54,7 +57,8 @@ public class MainNewsFeedActivity extends AppCompatActivity {
                 JSONArray returnedResults;
                 try {
                     returnedResults = response.getJSONObject("response").getJSONArray("docs");
-                    newYorkTimesArrayAdapter.addAll(NewYorkTimeArticle.fromJSONArrayTo(returnedResults));
+                    newYorkTimeArticles.addAll(NewYorkTimeArticle.fromJSONArrayTo(returnedResults));
+                    newYorkTimesArrayAdapter.notifyDataSetChanged();
                     Log.e("DEBUG", newYorkTimeArticles.toString());
                 } catch (JSONException e) {
                     e.printStackTrace();

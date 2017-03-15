@@ -22,7 +22,7 @@ public class NewYorkTimeArticle {
             JSONArray multimedia = jsonObject.getJSONArray("multimedia");
             if (multimedia.length() > 0) {
                 JSONObject multimediaJson = multimedia.getJSONObject(0);
-                this.thumbnail = "https://nytimes.com/" + multimediaJson.getString("url");
+                this.thumbnail = "http://www.nytimes.com/" + multimediaJson.getString("url");
             } else {
                 this.thumbnail = "";
             }
