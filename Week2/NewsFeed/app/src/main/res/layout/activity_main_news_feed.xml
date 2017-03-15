@@ -18,4 +18,12 @@
 
     </android.support.v7.widget.Toolbar>
 
+    <GridView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/newsFeedList"
+        android:numColumns="3">
+
+    </GridView>
+
 </LinearLayout>
