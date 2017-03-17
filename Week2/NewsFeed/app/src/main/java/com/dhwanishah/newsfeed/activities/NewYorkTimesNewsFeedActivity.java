@@ -1,6 +1,7 @@
 package com.dhwanishah.newsfeed.activities;
 
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AlertDialog;
@@ -71,6 +72,7 @@ public class NewYorkTimesNewsFeedActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.main_news_feed, menu);
         final MenuItem searchItem = menu.findItem(R.id.action_search);
         final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+        searchView.setBackgroundColor(Color.WHITE);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
