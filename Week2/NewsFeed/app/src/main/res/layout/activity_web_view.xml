@@ -2,28 +2,27 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_main_news_feed"
+    android:id="@+id/activity_web_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     android:orientation="vertical"
-    android:background="#e0e0e0"
-    tools:context="com.dhwanishah.newsfeed.activities.NewYorkTimesNewsFeedActivity">
+    tools:context="com.dhwanishah.newsfeed.activities.WebViewActivity">
 
     <android.support.v7.widget.Toolbar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/mainToolbar"
+        android:id="@+id/webViewToolbar"
         app:titleTextColor="@android:color/white"
         android:background="?attr/colorPrimary">
 
     </android.support.v7.widget.Toolbar>
 
-    <android.support.v7.widget.RecyclerView
+    <WebView
+        android:id="@+id/articleWebView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/newsFeedList">
-
-    </android.support.v7.widget.RecyclerView>
-
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 </LinearLayout>

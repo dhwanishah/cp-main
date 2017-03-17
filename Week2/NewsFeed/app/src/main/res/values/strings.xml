@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">NewsFeed</string>
+
+    <string-array name="newYorkTimesSortingArray">
+        <item>Newest</item>
+        <item>Oldest</item>
+    </string-array>
 </resources>

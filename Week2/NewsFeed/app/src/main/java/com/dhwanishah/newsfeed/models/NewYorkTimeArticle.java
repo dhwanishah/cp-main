@@ -1,5 +1,7 @@
 package com.dhwanishah.newsfeed.models;
 
+import com.dhwanishah.newsfeed.utils.GlobalProperties;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -22,7 +24,7 @@ public class NewYorkTimeArticle {
             JSONArray multimedia = jsonObject.getJSONArray("multimedia");
             if (multimedia.length() > 0) {
                 JSONObject multimediaJson = multimedia.getJSONObject(0);
-                this.thumbnail = "http://www.nytimes.com/" + multimediaJson.getString("url");
+                this.thumbnail = GlobalProperties.NY_TIMES_IMAGE_DOMAIN + multimediaJson.getString("url");
             } else {
                 this.thumbnail = "";
             }
