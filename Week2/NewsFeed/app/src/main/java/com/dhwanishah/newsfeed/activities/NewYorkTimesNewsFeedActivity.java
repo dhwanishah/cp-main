@@ -12,6 +12,7 @@ import android.support.v7.widget.SearchView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,6 +23,7 @@ import android.widget.Toast;
 import com.dhwanishah.newsfeed.R;
 import com.dhwanishah.newsfeed.adapters.NewYorkTimesArrayAdapter;
 import com.dhwanishah.newsfeed.models.NewYorkTimeArticle;
+import com.dhwanishah.newsfeed.utils.EndlessRecyclerViewScrollListener;
 import com.dhwanishah.newsfeed.utils.GlobalProperties;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -46,14 +48,18 @@ public class NewYorkTimesNewsFeedActivity extends AppCompatActivity {
     View dialogView;
 
     String lastSearchedQuery = "";
+    int lastPageNumber = 0;
     String sortingFilter = "Newest";
     String sectionFilter = "";
+
+    // Store a member variable for the listener
+    private EndlessRecyclerViewScrollListener scrollListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_news_feed);
-
+        setTitle("The New York Times");
         Toolbar mainToolbar = (Toolbar) findViewById(R.id.mainToolbar);
         setSupportActionBar(mainToolbar);
 
@@ -63,7 +69,21 @@ public class NewYorkTimesNewsFeedActivity extends AppCompatActivity {
         resultsList.setAdapter(newYorkTimesArrayAdapter);
         StaggeredGridLayoutManager gridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         resultsList.setLayoutManager(gridLayoutManager);
-        fetchSearchResults(lastSearchedQuery);
+
+        // Retain an instance so that you can call `resetState()` for fresh searches
+        scrollListener = new EndlessRecyclerViewScrollListener(gridLayoutManager) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                // Triggered only when new data needs to be appended to the list
+                // Add whatever code is needed to append new items to the bottom of the list
+                Log.e("SCROLLHIT", "NEWSEARCH " + lastPageNumber + " " + lastSearchedQuery);
+                fetchSearchResults(lastSearchedQuery, ++lastPageNumber);
+                Log.e("SCROLLHIT", "NEWSEARCH " + lastPageNumber + " " + lastSearchedQuery);
+            }
+        };
+        resultsList.addOnScrollListener(scrollListener);
+
+        fetchSearchResults(lastSearchedQuery, lastPageNumber);
 
     }
 
@@ -77,7 +97,8 @@ public class NewYorkTimesNewsFeedActivity extends AppCompatActivity {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 if (!TextUtils.isEmpty(query)) {
-                    fetchSearchResults(query);
+                    clearSearchResultsAndReset();
+                    fetchSearchResults(query, lastPageNumber);
                 } else {
                     Toast.makeText(getApplicationContext(), "Enter a search value.", Toast.LENGTH_SHORT).show();
                 }
@@ -102,11 +123,18 @@ public class NewYorkTimesNewsFeedActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
-    private void fetchSearchResults(final String searchQuery) {
+    private void clearSearchResultsAndReset() {
+        lastPageNumber = 0;
+        newYorkTimeArticles.clear();
+        newYorkTimesArrayAdapter.notifyDataSetChanged();
+        scrollListener.resetState();
+    }
+
+    private void fetchSearchResults(final String searchQuery, int pageNumber) {
         AsyncHttpClient client = new AsyncHttpClient();
         RequestParams params = new RequestParams();
         params.add("api-key", GlobalProperties.NY_TIMES_API_KEY);
-        params.add("page", String.valueOf(0));
+        params.add("page", String.valueOf(pageNumber));
         params.add("sort", sortingFilter);
         if (!TextUtils.isEmpty(sectionFilter)) {
             params.add("fq", "news_desk:(" + sectionFilter + ")");
@@ -120,10 +148,12 @@ public class NewYorkTimesNewsFeedActivity extends AppCompatActivity {
                 JSONArray returnedResults;
                 try {
                     returnedResults = response.getJSONObject("response").getJSONArray("docs");
-                    newYorkTimeArticles.clear();
+                    //newYorkTimeArticles.clear();
                     newYorkTimeArticles.addAll(NewYorkTimeArticle.fromJSONArrayTo(returnedResults));
                     newYorkTimesArrayAdapter.notifyDataSetChanged();
                     lastSearchedQuery = searchQuery;
+                    lastPageNumber = lastPageNumber++;
+                    scrollListener.resetState();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -161,7 +191,8 @@ public class NewYorkTimesNewsFeedActivity extends AppCompatActivity {
                         sectionFilter += artsCheckbox.isChecked() ? "\"" + artsCheckbox.getText().toString() + "\"" : "";
                         sectionFilter += fashionAndStyleCheckBox.isChecked() ? "\"" + fashionAndStyleCheckBox.getText().toString() + "\"" : "";
                         sectionFilter += sportsCheckbox.isChecked() ? "\"" + sportsCheckbox.getText().toString() + "\"" : "";
-                        fetchSearchResults(lastSearchedQuery);
+                        clearSearchResultsAndReset();
+                        fetchSearchResults(lastSearchedQuery, lastPageNumber);
                     }
                 })
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
