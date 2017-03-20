@@ -24,6 +24,7 @@ import com.dhwanishah.newsfeed.R;
 import com.dhwanishah.newsfeed.adapters.NewYorkTimesArrayAdapter;
 import com.dhwanishah.newsfeed.models.NewYorkTimeArticle;
 import com.dhwanishah.newsfeed.utils.EndlessRecyclerViewScrollListener;
+import com.dhwanishah.newsfeed.utils.GlobalFunctions;
 import com.dhwanishah.newsfeed.utils.GlobalProperties;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -40,6 +41,7 @@ import cz.msebera.android.httpclient.Header;
 
 public class NewYorkTimesNewsFeedActivity extends AppCompatActivity {
 
+    GlobalFunctions globalFunctions = new GlobalFunctions(this);
     RecyclerView resultsList;
     ArrayList<NewYorkTimeArticle> newYorkTimeArticles;
     NewYorkTimesArrayAdapter newYorkTimesArrayAdapter;
@@ -59,31 +61,39 @@ public class NewYorkTimesNewsFeedActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_news_feed);
-        setTitle("The New York Times");
+        setTitle(getResources().getStringArray(R.array.newsFeedNames)[GlobalProperties.NEWS_TYPE.NY_TIMES.ordinal()]);
         Toolbar mainToolbar = (Toolbar) findViewById(R.id.mainToolbar);
         setSupportActionBar(mainToolbar);
+        if (globalFunctions.isNetworkAvailable()) {
+            if (globalFunctions.isOnline()) {
+                newYorkTimeArticles = new ArrayList<>();
+                resultsList = (RecyclerView) findViewById(R.id.newsFeedList);
+                newYorkTimesArrayAdapter = new NewYorkTimesArrayAdapter(getApplicationContext(), newYorkTimeArticles);
+                resultsList.setAdapter(newYorkTimesArrayAdapter);
+                StaggeredGridLayoutManager gridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+                resultsList.setLayoutManager(gridLayoutManager);
 
-        newYorkTimeArticles = new ArrayList<>();
-        resultsList = (RecyclerView) findViewById(R.id.newsFeedList);
-        newYorkTimesArrayAdapter = new NewYorkTimesArrayAdapter(getApplicationContext(), newYorkTimeArticles);
-        resultsList.setAdapter(newYorkTimesArrayAdapter);
-        StaggeredGridLayoutManager gridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
-        resultsList.setLayoutManager(gridLayoutManager);
+                // Retain an instance so that you can call `resetState()` for fresh searches
+                scrollListener = new EndlessRecyclerViewScrollListener(gridLayoutManager) {
+                    @Override
+                    public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                        // Triggered only when new data needs to be appended to the list
+                        // Add whatever code is needed to append new items to the bottom of the list
+                        Log.e("SCROLLHIT", "NEWSEARCH " + lastPageNumber + " " + lastSearchedQuery);
+                        fetchSearchResults(lastSearchedQuery, ++lastPageNumber);
+                        Log.e("SCROLLHIT", "NEWSEARCH " + lastPageNumber + " " + lastSearchedQuery);
+                    }
+                };
+                resultsList.addOnScrollListener(scrollListener);
 
-        // Retain an instance so that you can call `resetState()` for fresh searches
-        scrollListener = new EndlessRecyclerViewScrollListener(gridLayoutManager) {
-            @Override
-            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                // Triggered only when new data needs to be appended to the list
-                // Add whatever code is needed to append new items to the bottom of the list
-                Log.e("SCROLLHIT", "NEWSEARCH " + lastPageNumber + " " + lastSearchedQuery);
-                fetchSearchResults(lastSearchedQuery, ++lastPageNumber);
-                Log.e("SCROLLHIT", "NEWSEARCH " + lastPageNumber + " " + lastSearchedQuery);
+                fetchSearchResults(lastSearchedQuery, lastPageNumber);
+            } else {
+                // TODO: Change these getResource getString to a function
+                Toast.makeText(getApplicationContext(), getResources().getStringArray(R.array.errorStrings)[GlobalProperties.ERR_TYPE.NO_INTERNET.ordinal()], Toast.LENGTH_LONG).show();
             }
-        };
-        resultsList.addOnScrollListener(scrollListener);
-
-        fetchSearchResults(lastSearchedQuery, lastPageNumber);
+        } else {
+            Toast.makeText(getApplicationContext(), getResources().getStringArray(R.array.errorStrings)[GlobalProperties.ERR_TYPE.NO_NETWORK.ordinal()], Toast.LENGTH_LONG).show();
+        }
 
     }
 

@@ -1,8 +1,20 @@
 <resources>
-    <string name="app_name">NewsFeed</string>
+    <string name="app_name">News Feed</string>
+
+    <string-array name="newsFeedNames">
+        <item>New York Times</item>
+        <item>CNN</item>
+    </string-array>
 
     <string-array name="newYorkTimesSortingArray">
         <item>Newest</item>
         <item>Oldest</item>
     </string-array>
+    <string-array name="errorStrings">
+        <item>You do not have any network, try again later.</item>
+        <item>You are not connected to the network.</item>
+    </string-array>
+
+    <string name="newYorkTimesActivity">com.dhwanishah.newsfeed.activities.NewYorkTimesNewsFeedActivity</string>
+    <string name="cnnActivity">com.dhwanishah.newsfeed.activities.CnnNewsFeedActivity</string>
 </resources>

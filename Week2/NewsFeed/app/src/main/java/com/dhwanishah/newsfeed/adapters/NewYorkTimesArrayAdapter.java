@@ -56,7 +56,7 @@ public class NewYorkTimesArrayAdapter extends RecyclerView.Adapter<NewYorkTimesA
             Glide.with(getContext())
                   .load(thumbnailUrl)
                   .diskCacheStrategy(DiskCacheStrategy.ALL)
-                  .placeholder(R.mipmap.ic_launcher)
+                  .placeholder(R.drawable.placeholder)
                   .override(600, 400)
                   .centerCrop()
                   .into(thumbnail);
