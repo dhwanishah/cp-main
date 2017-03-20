@@ -1,5 +1,6 @@
 package com.dhwanishah.newsfeed.activities;
 
+import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -17,11 +18,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.dhwanishah.newsfeed.R;
 import com.dhwanishah.newsfeed.adapters.NewYorkTimesArrayAdapter;
+import com.dhwanishah.newsfeed.fragments.DatePickerFragment;
 import com.dhwanishah.newsfeed.models.NewYorkTimeArticle;
 import com.dhwanishah.newsfeed.utils.EndlessRecyclerViewScrollListener;
 import com.dhwanishah.newsfeed.utils.GlobalFunctions;
@@ -36,10 +40,11 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 
 import cz.msebera.android.httpclient.Header;
 
-public class NewYorkTimesNewsFeedActivity extends AppCompatActivity {
+public class NewYorkTimesNewsFeedActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
     GlobalFunctions globalFunctions = new GlobalFunctions(this);
     RecyclerView resultsList;
@@ -51,8 +56,11 @@ public class NewYorkTimesNewsFeedActivity extends AppCompatActivity {
 
     String lastSearchedQuery = "";
     int lastPageNumber = 0;
+    String beginDateFilter = "";
     String sortingFilter = "Newest";
     String sectionFilter = "";
+
+    EditText datePickerFilter;
 
     // Store a member variable for the listener
     private EndlessRecyclerViewScrollListener scrollListener;
@@ -146,6 +154,10 @@ public class NewYorkTimesNewsFeedActivity extends AppCompatActivity {
         params.add("api-key", GlobalProperties.NY_TIMES_API_KEY);
         params.add("page", String.valueOf(pageNumber));
         params.add("sort", sortingFilter);
+        if (!TextUtils.isEmpty(beginDateFilter)) {
+            Log.e("DATE", beginDateFilter);
+            params.add("begin_date", beginDateFilter);
+        }
         if (!TextUtils.isEmpty(sectionFilter)) {
             params.add("fq", "news_desk:(" + sectionFilter + ")");
         }
@@ -171,7 +183,7 @@ public class NewYorkTimesNewsFeedActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                Toast.makeText(getApplicationContext(), "There was an issue getting information.", Toast.LENGTH_LONG).show();
+                //Toast.makeText(getApplicationContext(), "There was an issue getting information.", Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -179,6 +191,7 @@ public class NewYorkTimesNewsFeedActivity extends AppCompatActivity {
     private void createFilterDialogBox() {
         alertBuilder = new AlertDialog.Builder(new ContextThemeWrapper(this, R.style.AppTheme));
         dialogView = getLayoutInflater().inflate(R.layout.dialog_filter_results_newyorktimes, null);
+        datePickerFilter = (EditText) dialogView.findViewById(R.id.datePickerFilter);
         final String[] sortStringArray = getResources().getStringArray(R.array.newYorkTimesSortingArray);
         final Spinner sortSpinner = (Spinner) dialogView.findViewById(R.id.sortingSpinner);
         final CheckBox artsCheckbox = (CheckBox) dialogView.findViewById(R.id.artsCheckBox);
@@ -223,4 +236,35 @@ public class NewYorkTimesNewsFeedActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
     }
+
+    // attach to an onclick handler to show the date picker
+    public void showDatePickerDialog(View v) {
+        DatePickerFragment newFragment = new DatePickerFragment();
+        newFragment.show(getSupportFragmentManager(), "datePicker");
+    }
+
+    // handle the date selected
+    @Override
+    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+        // store the values selected into a Calendar instance
+        final Calendar c = Calendar.getInstance();
+        c.set(Calendar.YEAR, year);
+        c.set(Calendar.MONTH, monthOfYear);
+        c.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+        datePickerFilter.setText(dayOfMonth + "/" + monthOfYear + "/" + year);
+        //Log.e("DATE", year + monthOfYear + dayOfMonth)
+        beginDateFilter = year + "";
+        if (monthOfYear < 10) {
+            beginDateFilter += "0" + monthOfYear;
+        } else {
+            beginDateFilter += monthOfYear;
+        }
+        if (dayOfMonth < 10) {
+            beginDateFilter += "0" + dayOfMonth;
+        } else {
+            beginDateFilter += dayOfMonth;
+        }
+        //beginDateFilter = year + "" + monthOfYear + "" + dayOfMonth;
+    }
+
 }
