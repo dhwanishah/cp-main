@@ -2,9 +2,9 @@ package com.codepath.apps.restclienttemplate;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 
 import com.codepath.apps.restclienttemplate.adapters.HomeTimelineAdapter;
 import com.codepath.apps.restclienttemplate.models.Tweet;
@@ -36,8 +36,9 @@ public class HomeTimelineActivity extends AppCompatActivity {
         homeTimelineAdapter = new HomeTimelineAdapter(getApplicationContext(), tweetsList);
         homeTimelineList.setAdapter(homeTimelineAdapter);
         homeTimelineList.setLayoutManager(new LinearLayoutManager(this));
-
-
+        RecyclerView.ItemDecoration itemDecoration = new
+                DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
+        homeTimelineList.addItemDecoration(itemDecoration);
 
         populateTheHomeTimeline();
     }
@@ -48,7 +49,6 @@ public class HomeTimelineActivity extends AppCompatActivity {
             public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
                 tweetsList.addAll(Tweet.fromJsonArray(response));
                 homeTimelineAdapter.notifyDataSetChanged();
-                Log.e("DEBUG", tweetsList.toString());
             }
 
             @Override

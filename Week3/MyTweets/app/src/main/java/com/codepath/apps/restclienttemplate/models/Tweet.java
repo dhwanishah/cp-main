@@ -4,11 +4,16 @@ package com.codepath.apps.restclienttemplate.models;
  * Created by DhwaniShah on 3/21/17.
  */
 
+import com.codepath.apps.restclienttemplate.utils.TimeCalculation;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
 
@@ -125,7 +130,12 @@ public class Tweet {
     }
 
     public String getCreatedAt() {
-        return createdAt;
+        DateFormat dateTimeFormatter = new SimpleDateFormat("EEE MMM dd HH:mm:ss ZZZZZ yyyy");
+        Date currentDateTime = new Date();
+        TimeCalculation timeCalculation = new TimeCalculation(
+                                                TimeCalculation.getTwitterDate(dateTimeFormatter.format(currentDateTime).toString()),
+                                                TimeCalculation.getTwitterDate(createdAt));
+        return timeCalculation.getDifferenceString();
     }
 
     public User getUser() {
