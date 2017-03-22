@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp">
+
+    <ImageView
+        android:id="@+id/profileImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minHeight="50dp"
+        android:minWidth="50dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginRight="10dp"
+        tools:src="@drawable/ic_launcher" />
+
+    <TextView
+        android:id="@+id/nameTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/profileImageView"
+        android:layout_toRightOf="@+id/profileImageView"
+        android:textStyle="bold"
+        android:textColor="#333333"
+        android:layout_marginRight="10dp"
+        tools:text="Dhwani Shah" />
+
+    <TextView
+        android:id="@+id/screenNameTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/nameTextView"
+        android:layout_toEndOf="@+id/nameTextView"
+        android:layout_toRightOf="@+id/nameTextView"
+        tools:text="/@dhwanishah" />
+
+    <TextView
+        android:id="@+id/postTimeTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        tools:text="24h" />
+
+    <TextView
+        android:id="@+id/postBodyTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/nameTextView"
+        android:layout_toRightOf="@+id/profileImageView"
+        tools:text="This is the body of the text and the post. This is a cool little thing that will be awesome."
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="10dp" />
+
+    <ImageView
+        android:id="@+id/replyImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/postBodyTextView"
+        android:layout_alignStart="@+id/postBodyTextView"
+        android:layout_below="@+id/postBodyTextView"
+        app:srcCompat="@drawable/ic_launcher" />
+
+    <TextView
+        android:id="@+id/replyTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/replyImageView"
+        android:layout_marginRight="20dp"
+        android:layout_toEndOf="@+id/replyImageView"
+        android:layout_toRightOf="@+id/replyImageView"
+        android:textStyle="bold"
+        tools:text="123" />
+
+    <ImageView
+        android:id="@+id/retweetImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/replyImageView"
+        android:layout_toEndOf="@+id/replyTextView"
+        android:layout_toRightOf="@+id/replyTextView"
+        app:srcCompat="@drawable/ic_launcher" />
+
+    <TextView
+        android:id="@+id/retweetTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/replyTextView"
+        android:layout_marginRight="20dp"
+        android:layout_toEndOf="@+id/retweetImageView"
+        android:layout_toRightOf="@+id/retweetImageView"
+        android:textStyle="bold"
+        tools:text="322" />
+
+    <ImageView
+        android:id="@+id/likeImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/ic_launcher"
+        android:layout_alignBottom="@+id/likeTextView"
+        android:layout_toRightOf="@+id/retweetTextView"
+        android:layout_toEndOf="@+id/retweetTextView" />
+
+    <TextView
+        android:id="@+id/likeTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/retweetTextView"
+        android:layout_toEndOf="@+id/likeImageView"
+        android:layout_toRightOf="@+id/likeImageView"
+        android:textStyle="bold"
+        tools:text="322" />
+
+
+</RelativeLayout>
