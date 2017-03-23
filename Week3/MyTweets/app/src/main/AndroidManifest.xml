@@ -33,7 +33,9 @@
                     android:scheme="oauth" />
             </intent-filter>
         </activity>
-        <activity android:name="com.codepath.apps.twitterFeeds.activities.HomeTimelineActivity"></activity>
+        <activity
+            android:name="com.codepath.apps.twitterFeeds.activities.HomeTimelineActivity"
+            android:windowSoftInputMode="adjustResize"></activity>
     </application>
 
 </manifest>

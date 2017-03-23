@@ -27,7 +27,7 @@ import java.util.ArrayList;
 
 import cz.msebera.android.httpclient.Header;
 
-public class HomeTimelineActivity extends AppCompatActivity implements ComposeTweetDialogFragment.ComposeDialogListener{
+public class HomeTimelineActivity extends AppCompatActivity {
 
     TwitterRestClient twitterRestClient;
 
@@ -36,6 +36,7 @@ public class HomeTimelineActivity extends AppCompatActivity implements ComposeTw
     HomeTimelineAdapter homeTimelineAdapter;
 
     FloatingActionButton composeTweetButton;
+    ComposeTweetDialogFragment composeTweetDialogFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,9 +62,17 @@ public class HomeTimelineActivity extends AppCompatActivity implements ComposeTw
                 //createAndSendTweet("Hello, sample post3.");
                 //populateTheHomeTimeline();
                 FragmentManager fm = getSupportFragmentManager();
-                ComposeTweetDialogFragment editNameDialogFragment = ComposeTweetDialogFragment.newInstance("Compose Message");
-                editNameDialogFragment.setStyle(DialogFragment.STYLE_NORMAL, R.style.Dialog_FullScreen);
-                editNameDialogFragment.show(fm, "fragment_compose_tweet");
+                composeTweetDialogFragment = ComposeTweetDialogFragment.newInstance("Compose Message");
+                composeTweetDialogFragment.setStyle(DialogFragment.STYLE_NORMAL, R.style.Dialog_FullScreen);
+                composeTweetDialogFragment.show(fm, "fragment_compose_tweet");
+
+                composeTweetDialogFragment.setmComposeDialogListener(new ComposeTweetDialogFragment.ComposeDialogListener() {
+                    @Override
+                    public void composeTweetToTwitter(String status) {
+                        createAndSendTweet(status);
+                        populateTheHomeTimeline();
+                    }
+                });
 
             }
         });
@@ -106,11 +115,5 @@ public class HomeTimelineActivity extends AppCompatActivity implements ComposeTw
                 Toast.makeText(getApplicationContext(), "Error posting tweet.", Toast.LENGTH_LONG).show();
             }
         });
-    }
-
-    @Override
-    public void composeTweetToTwitter(String status) {
-        createAndSendTweet(status);
-        populateTheHomeTimeline();
     }
 }

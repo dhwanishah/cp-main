@@ -3,6 +3,7 @@ package com.codepath.apps.twitterFeeds.fragments;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,10 +23,10 @@ public class ComposeTweetDialogFragment extends DialogFragment {
     private EditText mTweetPost;
     private Button mPostTweetButton;
 
-    private ComposeDialogListener composeDialogListener;
+    private ComposeDialogListener mComposeDialogListener;
 
     public ComposeTweetDialogFragment() {
-
+        this.mComposeDialogListener = null;
     }
 
     public static ComposeTweetDialogFragment newInstance(String tweetTitle) {
@@ -35,6 +36,15 @@ public class ComposeTweetDialogFragment extends DialogFragment {
         frag.setArguments(args);
         return frag;
     }
+
+    public interface ComposeDialogListener {
+        void composeTweetToTwitter(String status);
+    }
+
+    public void setmComposeDialogListener(ComposeDialogListener mComposeDialogListener) {
+        this.mComposeDialogListener = mComposeDialogListener;
+    }
+
 
     @Nullable
     @Override
@@ -55,10 +65,12 @@ public class ComposeTweetDialogFragment extends DialogFragment {
         mPostTweetButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                composeDialogListener.composeTweetToTwitter(mTweetPost.getText().toString());
-                //composeDialogListener(mTweetPost.getText().toString());
-                Log.e("POST", mTweetPost.getText().toString());
-                getDialog().dismiss();
+                if (!TextUtils.isEmpty(mTweetPost.getText().toString())) {
+                    mComposeDialogListener.composeTweetToTwitter(mTweetPost.getText().toString());
+                    //composeDialogListener(mTweetPost.getText().toString());
+                    Log.e("POST", mTweetPost.getText().toString());
+                    getDialog().dismiss();
+                }
             }
         });
     }
@@ -73,9 +85,5 @@ public class ComposeTweetDialogFragment extends DialogFragment {
         getDialog().getWindow().setAttributes((android.view.WindowManager.LayoutParams) params);
         // Call super onResume after sizing
         super.onResume();
-    }
-
-    public interface ComposeDialogListener {
-        public void composeTweetToTwitter(String status);
     }
 }
