@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="10dp">
+    android:padding="10dp"
+    android:layout_marginTop="@dimen/activity_horizontal_margin"
+    android:layout_marginBottom="@dimen/activity_horizontal_margin" >
 
     <ImageView
         android:id="@+id/profileImageView"
@@ -61,12 +63,12 @@
         android:layout_alignParentEnd="true"
         android:textColor="#9B9DA1"
         android:layout_marginTop="5dp"
-        android:layout_marginBottom="10dp" />
+        android:layout_marginBottom="26dp" />
 
     <ImageView
         android:id="@+id/replyImageView"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
         android:layout_alignLeft="@+id/postBodyTextView"
         android:layout_alignStart="@+id/postBodyTextView"
         android:layout_below="@+id/postBodyTextView"
@@ -78,7 +80,7 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/replyImageView"
         android:layout_marginLeft="10dp"
-        android:layout_marginRight="20dp"
+        android:layout_marginRight="25dp"
         android:layout_toEndOf="@+id/replyImageView"
         android:layout_toRightOf="@+id/replyImageView"
         android:textStyle="bold"
@@ -99,7 +101,7 @@
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/replyTextView"
         android:layout_marginLeft="10dp"
-        android:layout_marginRight="20dp"
+        android:layout_marginRight="25dp"
         android:layout_toEndOf="@+id/retweetImageView"
         android:layout_toRightOf="@+id/retweetImageView"
         android:textStyle="bold"
@@ -107,8 +109,8 @@
 
     <ImageView
         android:id="@+id/likeImageView"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
         android:src="@drawable/star_icon"
         android:layout_alignBottom="@+id/likeTextView"
         android:layout_toRightOf="@+id/retweetTextView"

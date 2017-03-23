@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/activity_home_timeline"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
-    tools:context="com.codepath.apps.restclienttemplate.HomeTimelineActivity">
+    tools:context="com.codepath.apps.twitterFeeds.activities.HomeTimelineActivity">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/homeTimelineRecyclerView"
@@ -13,4 +14,17 @@
         android:layout_height="match_parent"
         android:background="#FDFDFD" />
 
-</RelativeLayout>
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/composeTweetFAB"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:layout_margin="16dp"
+        app:fabSize="normal"
+        android:src="@drawable/compose2_icon"
+        app:layout_anchor="@id/homeTimelineRecyclerView"
+        app:layout_anchorGravity="bottom|right|end"
+        app:backgroundTint="@color/colorPrimary"
+        app:layout_behavior="com.codepath.apps.twitterFeeds.utils.ScrollAwareFloatinActionButtonBehavior"/>
+
+</android.support.design.widget.CoordinatorLayout>
