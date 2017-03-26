@@ -4,6 +4,9 @@ package com.codepath.apps.twitterFeeds.models;
  * Created by DhwaniShah on 3/21/17.
  */
 
+import android.util.Log;
+
+import com.codepath.apps.twitterFeeds.activities.HomeTimelineActivity;
 import com.codepath.apps.twitterFeeds.utils.TimeCalculation;
 
 import org.json.JSONArray;
@@ -95,6 +98,9 @@ public class Tweet {
     String createdAt;
     User user;
 
+    //long sinceId;
+    //long maxId;
+
     public static Tweet fromJson(JSONObject jsonObject) {
         Tweet tweet = new Tweet();
         try {
@@ -110,9 +116,29 @@ public class Tweet {
 
     public static ArrayList<Tweet> fromJsonArray(JSONArray jsonArray) {
         ArrayList<Tweet> tweets = new ArrayList<>();
+        //long previousSinceId = 0;
         for (int i = 0; i < jsonArray.length(); i++) {
             try {
                 tweets.add(Tweet.fromJson(jsonArray.getJSONObject(i)));
+                //if (HomeTimelineActivity.mLastSinceId == 1) {
+                    if (i == 0 && HomeTimelineActivity.mLastMaxId == 1) {
+                        Log.e("M", Tweet.fromJson(jsonArray.getJSONObject(i)).getId() + "");
+                        HomeTimelineActivity.mLastMaxId = Tweet.fromJson(jsonArray.getJSONObject(i)).getId();
+                    }
+//                    else if (i == 0 && HomeTimelineActivity.mLastMaxId != 1) {
+//                        Log.e("M2", Tweet.fromJson(jsonArray.getJSONObject(i)).getId() + "");
+//                        HomeTimelineActivity.mLastMaxId = HomeTimelineActivity.mLastSinceId;
+//                    }
+                //}
+//                else {
+//                    HomeTimelineActivity.mLastMaxId = HomeTimelineActivity.mLastSinceId;
+//                }
+                if (i == jsonArray.length()-1) {
+                    Log.e("S", Tweet.fromJson(jsonArray.getJSONObject(i)).getId() + "");
+                    HomeTimelineActivity.mLastSinceId = Tweet.fromJson(jsonArray.getJSONObject(i)).getId();
+                    //previousSinceId = Tweet.fromJson(jsonArray.getJSONObject(i)).getId();
+                    Log.e("sinceAndMax", HomeTimelineActivity.mLastMaxId + " " + HomeTimelineActivity.mLastSinceId);
+                }
             } catch (JSONException e) {
                 e.printStackTrace();
                 continue;
@@ -141,5 +167,13 @@ public class Tweet {
     public User getUser() {
         return user;
     }
+
+//    public long getSinceId() {
+//        return sinceId;
+//    }
+//
+//    public long getMaxId() {
+//        return maxId;
+//    }
 
 }

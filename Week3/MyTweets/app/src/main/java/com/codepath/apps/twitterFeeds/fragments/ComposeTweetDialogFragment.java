@@ -3,7 +3,9 @@ package com.codepath.apps.twitterFeeds.fragments;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,8 +13,15 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.codepath.apps.twitterFeeds.R;
+import com.codepath.apps.twitterFeeds.models.User;
+
+import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 /**
  * Created by DhwaniShah on 3/22/17.
@@ -20,16 +29,24 @@ import com.codepath.apps.twitterFeeds.R;
 
 public class ComposeTweetDialogFragment extends DialogFragment {
 
+    private static User mCurrentUserInfo;
+
+    private ImageView mCurrentUserProfileImage;
+    private TextView mCurrentUserScreenName;
+    private TextView mPostCharsLeft;
     private EditText mTweetPost;
     private Button mPostTweetButton;
 
     private ComposeDialogListener mComposeDialogListener;
 
+    private int charsLeftOnPost = 140;
+
     public ComposeTweetDialogFragment() {
         this.mComposeDialogListener = null;
     }
 
-    public static ComposeTweetDialogFragment newInstance(String tweetTitle) {
+    public static ComposeTweetDialogFragment newInstance(String tweetTitle, User currentUserInfo) {
+        mCurrentUserInfo = currentUserInfo;
         ComposeTweetDialogFragment frag = new ComposeTweetDialogFragment();
         Bundle args = new Bundle();
         args.putString("tweetPostTitle", tweetTitle);
@@ -55,6 +72,19 @@ public class ComposeTweetDialogFragment extends DialogFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        mCurrentUserProfileImage = (ImageView) view.findViewById(R.id.currentUserProfileImage);
+        mCurrentUserProfileImage.setImageResource(0);
+        Glide
+                .with(getContext())
+                .load(mCurrentUserInfo.getProfileImageUrl())
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .bitmapTransform(new CropCircleTransformation(getContext()))
+                .into(mCurrentUserProfileImage);
+
+        mCurrentUserScreenName = (TextView) view.findViewById(R.id.currentUserScreenName);
+        mCurrentUserScreenName.setText(mCurrentUserInfo.getScreenName());
+
+        mPostCharsLeft = (TextView) view.findViewById(R.id.postCharsLeft);
         mTweetPost = (EditText) view.findViewById(R.id.tweetPostEditText);
         mPostTweetButton = (Button) view.findViewById(R.id.postTweetButton);
         String tweetPostTitle = getArguments().getString("tweetPostTitle", "Compose message");
@@ -71,6 +101,23 @@ public class ComposeTweetDialogFragment extends DialogFragment {
                     Log.e("POST", mTweetPost.getText().toString());
                     getDialog().dismiss();
                 }
+            }
+        });
+
+        mTweetPost.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                mPostCharsLeft.setText(String.valueOf(charsLeftOnPost - s.length()));
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
             }
         });
     }
