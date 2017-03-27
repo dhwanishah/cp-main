@@ -69,9 +69,9 @@ public class UserInfoDialogFragment extends DialogFragment  {
         mFavoriteCount = (TextView) view.findViewById(R.id.userTotalFavoriteCount);
         mFavoriteCount.setText(String.valueOf(mCurrentUserInfo.getFavoriteCount()));
         mFriendsCount = (TextView) view.findViewById(R.id.userTotalFriendsCount);
-        mFriendsCount.setText(String.valueOf(mCurrentUserInfo.getFavoriteCount()));
+        mFriendsCount.setText(String.valueOf(mCurrentUserInfo.getFavoriteCount()) + " friends");
         mFollowersCount = (TextView) view.findViewById(R.id.userTotalFollowersCount);
-        mFollowersCount.setText(String.valueOf(mCurrentUserInfo.getFollowersCount()));
+        mFollowersCount.setText(String.valueOf(mCurrentUserInfo.getFollowersCount()) + " followers");
 
 
         String tweetPostTitle = getArguments().getString("tweetPostTitle", "Compose message");
