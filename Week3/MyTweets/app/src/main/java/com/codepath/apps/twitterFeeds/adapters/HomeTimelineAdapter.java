@@ -61,6 +61,12 @@ public class HomeTimelineAdapter extends RecyclerView.Adapter<HomeTimelineAdapte
         body.setText(tweet.getBody());
         TextView createdAt = holder.createdAt;
         createdAt.setText(tweet.getCreatedAt());
+        TextView retweetCount = holder.retweetCount;
+        retweetCount.setText(String.valueOf(tweet.getRetweetCount()));
+        ImageView isFavorited = holder.isFavorited;
+        if (tweet.isFavorited()) {
+            isFavorited.setImageResource(R.drawable.star_selected_icon);
+        }
     }
 
     @Override
@@ -75,6 +81,8 @@ public class HomeTimelineAdapter extends RecyclerView.Adapter<HomeTimelineAdapte
         public TextView screenName;
         public TextView body;
         public TextView createdAt;
+        public TextView retweetCount;
+        public ImageView isFavorited;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -84,6 +92,8 @@ public class HomeTimelineAdapter extends RecyclerView.Adapter<HomeTimelineAdapte
             screenName = (TextView) itemView.findViewById(R.id.screenNameTextView);
             body = (TextView) itemView.findViewById(R.id.postBodyTextView);
             createdAt = (TextView) itemView.findViewById(R.id.postTimeTextView);
+            retweetCount = (TextView) itemView.findViewById(R.id.retweetTextView);
+            isFavorited = (ImageView) itemView.findViewById(R.id.likeImageView);
         }
     }
 }

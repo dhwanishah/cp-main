@@ -81,7 +81,7 @@ public class ComposeTweetDialogFragment extends DialogFragment {
                 .bitmapTransform(new CropCircleTransformation(getContext()))
                 .into(mCurrentUserProfileImage);
 
-        mCurrentUserScreenName = (TextView) view.findViewById(R.id.currentUserScreenName);
+        mCurrentUserScreenName = (TextView) view.findViewById(R.id.currentName);
         mCurrentUserScreenName.setText(mCurrentUserInfo.getScreenName());
 
         mPostCharsLeft = (TextView) view.findViewById(R.id.postCharsLeft);

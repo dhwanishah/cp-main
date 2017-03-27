@@ -8,6 +8,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
@@ -16,6 +18,7 @@ import com.codepath.apps.twitterFeeds.TwitterRestApplication;
 import com.codepath.apps.twitterFeeds.TwitterRestClient;
 import com.codepath.apps.twitterFeeds.adapters.HomeTimelineAdapter;
 import com.codepath.apps.twitterFeeds.fragments.ComposeTweetDialogFragment;
+import com.codepath.apps.twitterFeeds.fragments.UserInfoDialogFragment;
 import com.codepath.apps.twitterFeeds.models.Tweet;
 import com.codepath.apps.twitterFeeds.models.User;
 import com.codepath.apps.twitterFeeds.utils.EndlessRecyclerViewScrollListener;
@@ -38,11 +41,18 @@ public class HomeTimelineActivity extends AppCompatActivity {
 
     FloatingActionButton composeTweetButton;
     ComposeTweetDialogFragment composeTweetDialogFragment;
+    UserInfoDialogFragment userInfoDialogFragment;
 
     private User mCurrentUserInfo;
     private EndlessRecyclerViewScrollListener scrollListener;
     public static long mLastSinceId;
     public static long mLastMaxId;
+    long newMaxId;
+
+
+    public long getNewMaxId() {
+        return newMaxId;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,7 +78,11 @@ public class HomeTimelineActivity extends AppCompatActivity {
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
                 // Triggered only when new data needs to be appended to the list
                 // Add whatever code is needed to append new items to the bottom of the list
+
+                Log.e("F", mLastMaxId + " " + (mLastSinceId-1) + " " + newMaxId);
+                //mLastMaxId = mLastSinceId - 1;
                 populateTheHomeTimeline(25, mLastSinceId, mLastMaxId);
+                Log.e("A", mLastMaxId + " " + (mLastSinceId-1) + " " + newMaxId);
                 Log.e("H", "hit");
             }
         };
@@ -115,6 +129,10 @@ public class HomeTimelineActivity extends AppCompatActivity {
     }
 
     private void populateTheHomeTimeline(int count, final long sinceId, long maxId) {
+        if (mLastSinceId != 1) {
+            newMaxId = mLastSinceId - 1;
+            mLastMaxId = newMaxId;
+        }
         twitterRestClient.getHomeTimeline(count, sinceId, maxId, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
@@ -165,5 +183,31 @@ public class HomeTimelineActivity extends AppCompatActivity {
                 super.onFailure(statusCode, headers, throwable, errorResponse);
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.main_screen_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.userInfo:
+                showUserInfoDialog();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void showUserInfoDialog() {
+        FragmentManager fm = getSupportFragmentManager();
+        userInfoDialogFragment = UserInfoDialogFragment.newInstance("User Info", mCurrentUserInfo);
+        userInfoDialogFragment.setStyle(DialogFragment.STYLE_NORMAL, R.style.Dialog_FullScreen);
+        userInfoDialogFragment.show(fm, "fragment_compose_tweet");
     }
 }

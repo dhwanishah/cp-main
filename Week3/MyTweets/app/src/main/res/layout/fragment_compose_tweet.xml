@@ -16,7 +16,7 @@
         app:srcCompat="@drawable/ic_launcher" />
 
     <TextView
-        android:id="@+id/currentUserScreenName"
+        android:id="@+id/currentName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -75,7 +75,7 @@
         android:id="@+id/textView6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/currentUserScreenName"
+        android:layout_below="@+id/currentName"
         android:layout_toEndOf="@+id/currentUserProfileImage"
         android:layout_toRightOf="@+id/currentUserProfileImage"
         android:text="TextView" />
