@@ -94,11 +94,7 @@ public class HomeTimelineActivity extends AppCompatActivity {
                         @Override
                         public void composeTweetToTwitter(String status) {
                             createAndSendTweet(status);
-                            //populateTheHomeTimeline(25, mLastSinceId, mLastMaxId);
-
-                            homeTimelineAdapter.notifyItemInserted(0);
-                            homeTimelineList.scrollToPosition(0);
-                            scrollListener.resetState();
+                            populateTheHomeTimeline(25, mLastSinceId, mLastMaxId);
                         }
                     });
 
@@ -140,6 +136,10 @@ public class HomeTimelineActivity extends AppCompatActivity {
         twitterRestClient.postTweet(status, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                tweetsList.add(0, Tweet.fromJson(response));
+                homeTimelineAdapter.notifyItemInserted(0);
+                homeTimelineList.scrollToPosition(0);
+                scrollListener.resetState();
                 Log.e("CREATE", response.toString());
                 Toast.makeText(getApplicationContext(), "Tweet successfully posted.", Toast.LENGTH_LONG).show();
             }
