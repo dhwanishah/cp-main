@@ -23,7 +23,6 @@ import com.codepath.apps.twitterFeeds.models.User;
 import com.codepath.apps.twitterFeeds.utils.EndlessRecyclerViewScrollListener;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -37,6 +36,7 @@ import cz.msebera.android.httpclient.Header;
 public class TweetsListFragment extends Fragment {
 
     TwitterRestClient twitterRestClient;
+
     RecyclerView homeTimelineList;
     ArrayList<Tweet> tweetsList;
     HomeTimelineAdapter homeTimelineAdapter;
@@ -49,13 +49,6 @@ public class TweetsListFragment extends Fragment {
     private EndlessRecyclerViewScrollListener scrollListener;
 
     private User mCurrentUserInfo;
-    public static long mLastSinceId;
-    public static long mLastMaxId;
-    long newMaxId;
-
-    public long getNewMaxId() {
-        return newMaxId;
-    }
 
     @Nullable
     @Override
@@ -73,11 +66,11 @@ public class TweetsListFragment extends Fragment {
                 // Triggered only when new data needs to be appended to the list
                 // Add whatever code is needed to append new items to the bottom of the list
 
-                Log.e("F", mLastMaxId + " " + (mLastSinceId-1) + " " + newMaxId);
+                /*Log.e("F", mLastMaxId + " " + (mLastSinceId-1) + " " + newMaxId);
                 //mLastMaxId = mLastSinceId - 1;
                 populateTheHomeTimeline(25, mLastSinceId, mLastMaxId);
                 Log.e("A", mLastMaxId + " " + (mLastSinceId-1) + " " + newMaxId);
-                Log.e("H", "hit");
+                Log.e("H", "hit");*/
             }
         };
 
@@ -98,7 +91,7 @@ public class TweetsListFragment extends Fragment {
                     @Override
                     public void composeTweetToTwitter(String status) {
                         createAndSendTweet(status);
-                        populateTheHomeTimeline(25, mLastSinceId, mLastMaxId);
+                        /*populateTheHomeTimeline(25, mLastSinceId, mLastMaxId);*/
                     }
                 });
 
@@ -112,19 +105,10 @@ public class TweetsListFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mLastSinceId = 1;
-        mLastMaxId = 1;
-
         twitterRestClient = TwitterRestApplication.getRestClient();
         tweetsList = new ArrayList<>();
         homeTimelineAdapter = new HomeTimelineAdapter(getActivity(), tweetsList);
-        //RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
-        //homeTimelineList.addItemDecoration(itemDecoration);
 
-
-
-
-        populateTheHomeTimeline(25, mLastSinceId, mLastMaxId);
         getCurrentUserInfoAndStore();
     }
 
@@ -179,25 +163,5 @@ public class TweetsListFragment extends Fragment {
         });
     }
 
-    private void populateTheHomeTimeline(int count, final long sinceId, long maxId) {
-//        if (mLastSinceId != 1) {
-//            newMaxId = mLastSinceId - 1;
-//            mLastMaxId = newMaxId;
-//        }
-        twitterRestClient.getHomeTimeline(count, sinceId, maxId, new JsonHttpResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
-                Log.e("DEBUG", response.toString());
-                clearAndResetTweetsList(Tweet.fromJsonArray(response));//845130414020747264, 38803325
-                // TODO : START HERE->mLastMaxId = mLastSinceId;
-                //tweetsList.addAll(Tweet.fromJsonArray(response));
-                //homeTimelineAdapter.notifyDataSetChanged();
-            }
 
-            @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                super.onFailure(statusCode, headers, throwable, errorResponse);
-            }
-        });
-    }
 }

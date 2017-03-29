@@ -6,7 +6,6 @@ package com.codepath.apps.twitterFeeds.models;
 
 import android.util.Log;
 
-import com.codepath.apps.twitterFeeds.fragments.TweetsListFragment;
 import com.codepath.apps.twitterFeeds.utils.TimeCalculation;
 
 import org.json.JSONArray;
@@ -17,6 +16,9 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+
+import static com.codepath.apps.twitterFeeds.fragments.HomeTimelineFragment.mLastMaxId;
+import static com.codepath.apps.twitterFeeds.fragments.HomeTimelineFragment.mLastSinceId;
 
 public class Tweet {
     long id;
@@ -52,9 +54,9 @@ public class Tweet {
             try {
                 tweets.add(Tweet.fromJson(jsonArray.getJSONObject(i)));
                 //if (HomeTimelineActivity.mLastSinceId == 1) {
-                    if (i == 0 && TweetsListFragment.mLastMaxId == 1) {
+                    if (i == 0 && mLastMaxId == 1) {
                         Log.e("M", Tweet.fromJson(jsonArray.getJSONObject(i)).getId() + "");
-                        TweetsListFragment.mLastMaxId = Tweet.fromJson(jsonArray.getJSONObject(i)).getId();
+                        mLastMaxId = Tweet.fromJson(jsonArray.getJSONObject(i)).getId();
                     }
 //                    else if (i == 0 && HomeTimelineActivity.mLastMaxId != 1) {
 //                        Log.e("M2", Tweet.fromJson(jsonArray.getJSONObject(i)).getId() + "");
@@ -66,9 +68,9 @@ public class Tweet {
 //                }
                 if (i == jsonArray.length()-1) {
                     Log.e("S", Tweet.fromJson(jsonArray.getJSONObject(i)).getId() + "");
-                    TweetsListFragment.mLastSinceId = Tweet.fromJson(jsonArray.getJSONObject(i)).getId();
+                    mLastSinceId = Tweet.fromJson(jsonArray.getJSONObject(i)).getId();
                     //previousSinceId = Tweet.fromJson(jsonArray.getJSONObject(i)).getId();
-                    Log.e("sinceAndMax", TweetsListFragment.mLastMaxId + " " + TweetsListFragment.mLastSinceId);
+                    Log.e("sinceAndMax", mLastMaxId + " " + mLastSinceId);
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -76,7 +78,7 @@ public class Tweet {
             }
         }
 
-        Log.e("Total", TweetsListFragment.mLastMaxId + " " + TweetsListFragment.mLastSinceId);
+        Log.e("Total", mLastMaxId + " " + mLastSinceId);
         return tweets;
     }
 
