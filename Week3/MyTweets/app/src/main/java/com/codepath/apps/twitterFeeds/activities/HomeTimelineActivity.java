@@ -129,10 +129,10 @@ public class HomeTimelineActivity extends AppCompatActivity {
     }
 
     private void populateTheHomeTimeline(int count, final long sinceId, long maxId) {
-        if (mLastSinceId != 1) {
-            newMaxId = mLastSinceId - 1;
-            mLastMaxId = newMaxId;
-        }
+//        if (mLastSinceId != 1) {
+//            newMaxId = mLastSinceId - 1;
+//            mLastMaxId = newMaxId;
+//        }
         twitterRestClient.getHomeTimeline(count, sinceId, maxId, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
