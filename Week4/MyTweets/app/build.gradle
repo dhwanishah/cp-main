@@ -53,4 +53,6 @@ dependencies {
     compile 'jp.wasabeef:glide-transformations:2.0.2'
     // If you want to use the GPU Filters
     compile 'jp.co.cyberagent.android.gpuimage:gpuimage-library:1.4.1'
+    // For tabs
+    compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
 }
