@@ -21,7 +21,6 @@ import com.codepath.apps.twitterFeeds.TwitterRestClient;
 import com.codepath.apps.twitterFeeds.fragments.ComposeTweetDialogFragment;
 import com.codepath.apps.twitterFeeds.fragments.HomeTimelineFragment;
 import com.codepath.apps.twitterFeeds.fragments.MentionsTimelineFragment;
-import com.codepath.apps.twitterFeeds.fragments.TweetsListFragment;
 import com.codepath.apps.twitterFeeds.fragments.UserInfoDialogFragment;
 import com.codepath.apps.twitterFeeds.models.User;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -32,8 +31,6 @@ import cz.msebera.android.httpclient.Header;
 
 public class HomeTimelineActivity extends AppCompatActivity {
 
-
-    TweetsListFragment tweetsListFragment;
     HomeTimelineFragment homeTimelineFragment;
     TwitterRestClient twitterRestClient;
 
@@ -171,7 +168,7 @@ public class HomeTimelineActivity extends AppCompatActivity {
         @Override
         public Fragment getItem(int position) {
             if (position == 0) {
-                return new HomeTimelineFragment();
+                return homeTimelineFragment;
             } else if (position == 1) {
                 return new MentionsTimelineFragment();
             } else {

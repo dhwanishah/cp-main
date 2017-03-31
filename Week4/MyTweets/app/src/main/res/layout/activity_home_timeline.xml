@@ -5,9 +5,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingTop="5dp"
-    android:paddingBottom="5dp"
-    android:background="@color/colorPrimary"
     android:orientation="vertical">
 
     <!--<fragment-->
@@ -42,10 +39,10 @@
             android:layout_gravity="bottom|right"
             android:layout_margin="16dp"
             app:fabSize="normal"
-            android:src="@drawable/compose2_icon"
+            android:src="@drawable/compose_icon"
             app:layout_anchor="@id/tabsViewPager"
             app:layout_anchorGravity="bottom|right|end"
-            app:backgroundTint="@color/colorPrimary"
+            app:backgroundTint="@android:color/white"
             app:layout_behavior="com.codepath.apps.twitterFeeds.utils.ScrollAwareFloatinActionButtonBehavior"/>
     </android.support.design.widget.CoordinatorLayout>
 

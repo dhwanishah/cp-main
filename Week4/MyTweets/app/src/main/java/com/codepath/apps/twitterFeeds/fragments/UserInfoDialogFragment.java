@@ -27,6 +27,7 @@ public class UserInfoDialogFragment extends DialogFragment  {
     private ImageView mCurrentUserProfileImage;
     private TextView mCurrentUserScreenName;
     private TextView mName;
+    private TextView mTagline;
     private TextView mFavoriteCount;
     private TextView mFriendsCount;
     private TextView mFollowersCount;
@@ -65,6 +66,8 @@ public class UserInfoDialogFragment extends DialogFragment  {
         mCurrentUserScreenName.setText(mCurrentUserInfo.getScreenName());
         mName = (TextView) view.findViewById(R.id.currentName);
         mName.setText(mCurrentUserInfo.getName());
+        mTagline = (TextView) view.findViewById(R.id.userTagline);
+        mTagline.setText(mCurrentUserInfo.getDescription());
 
         mFavoriteCount = (TextView) view.findViewById(R.id.userTotalFavoriteCount);
         mFavoriteCount.setText(String.valueOf(mCurrentUserInfo.getFavoriteCount()));

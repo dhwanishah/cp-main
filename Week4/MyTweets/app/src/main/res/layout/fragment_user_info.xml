@@ -2,126 +2,105 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="@dimen/activity_horizontal_margin"
+    android:layout_height="wrap_content"
     android:background="@color/colorPrimary">
 
-    <ImageView
-        android:id="@+id/currentUserProfileImage"
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="75dp"
-        android:minWidth="75dp"
-        app:srcCompat="@drawable/ic_launcher"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:background="@color/colorPrimary"
+        android:id="@+id/userProfileInfo"
+        android:padding="@dimen/activity_horizontal_margin">
+        <ImageView
+            android:id="@+id/currentUserProfileImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentStart="true"
+            android:minHeight="75dp"
+            android:minWidth="75dp"
+            app:srcCompat="@drawable/ic_launcher" />
 
-    <TextView
-        android:id="@+id/currentName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Dhwani Shah"
-        android:textColor="@android:color/white"
-        android:textSize="18sp"
-        android:layout_marginTop="39dp"
-        android:layout_below="@+id/currentUserProfileImage"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        <TextView
+            android:id="@+id/currentName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/currentUserProfileImage"
+            android:layout_marginTop="39dp"
+            android:text="Dhwani Shah"
+            android:textColor="@android:color/white"
+            android:textSize="18sp" />
 
-    <TextView
-        android:id="@+id/currentUserScreenName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@android:color/white"
-        android:text="\@dhwanishah"
-        android:layout_alignBaseline="@+id/currentName"
-        android:layout_alignBottom="@+id/currentName"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        <TextView
+            android:id="@+id/currentUserScreenName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/currentName"
+            android:layout_alignBottom="@+id/currentName"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:text="\@dhwanishah"
+            android:textColor="@android:color/white" />
 
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="75dp"
-        android:layout_height="75dp"
-        app:srcCompat="@drawable/star_icon"
-        android:layout_below="@+id/currentName"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="25dp" />
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/currentName"
+            android:layout_marginTop="25dp"
+            app:srcCompat="@drawable/star_icon" />
 
-    <TextView
-        android:id="@+id/userTotalFavoriteCount"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@android:color/white"
-        android:text="220"
-        android:layout_alignBottom="@+id/imageView2"
-        android:layout_toRightOf="@+id/imageView2"
-        android:layout_toEndOf="@+id/imageView2" />
+        <TextView
+            android:id="@+id/userTotalFavoriteCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/imageView2"
+            android:layout_toEndOf="@+id/imageView2"
+            android:layout_toRightOf="@+id/imageView2"
+            android:text="220"
+            android:textColor="@android:color/white" />
 
-    <!--<ImageView-->
-        <!--android:id="@+id/imageView3"-->
-        <!--android:layout_width="75dp"-->
-        <!--android:layout_height="75dp"-->
-        <!--android:layout_centerVertical="true"-->
-        <!--app:srcCompat="@drawable/retweet_icon"-->
-        <!--android:layout_alignRight="@+id/imageView4"-->
-        <!--android:layout_alignEnd="@+id/imageView4"-->
-        <!--android:layout_alignParentLeft="true"-->
-        <!--android:layout_alignParentStart="true" />-->
+        <TextView
+            android:id="@+id/userTotalFollowersCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:text="332 followers"
+            android:textColor="@android:color/white" />
 
-    <!--<TextView-->
-        <!--android:id="@+id/userRetweetCount"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_alignBottom="@+id/imageView3"-->
-        <!--android:textColor="@android:color/white"-->
-        <!--android:layout_alignLeft="@+id/userTotalFavoriteCount"-->
-        <!--android:layout_alignStart="@+id/userTotalFavoriteCount"-->
-        <!--android:text="1233" />-->
+        <TextView
+            android:id="@+id/userTotalFriendsCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/userTotalFollowersCount"
+            android:layout_marginTop="10dp"
+            android:text="22333 friends"
+            android:textColor="@android:color/white" />
 
-    <!--<ImageView-->
-        <!--android:id="@+id/imageView4"-->
-        <!--android:layout_width="75dp"-->
-        <!--android:layout_height="75dp"-->
-        <!--android:layout_marginTop="16dp"-->
-        <!--app:srcCompat="@drawable/reply_icon"-->
-        <!--android:layout_below="@+id/imageView3"-->
-        <!--android:layout_alignParentLeft="true"-->
-        <!--android:layout_marginRight="20dp"-->
-        <!--android:layout_alignParentStart="true" />-->
+        <TextView
+            android:id="@+id/userTagline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/userTotalFriendsCount"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:text="This is my tagline"
+            android:textColor="@android:color/white" />
+    </RelativeLayout>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/white"
+        android:layout_below="@+id/userProfileInfo">
 
-    <!--<TextView-->
-        <!--android:id="@+id/userReplyCount"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_alignBottom="@+id/imageView4"-->
-        <!--android:textColor="@android:color/white"-->
-        <!--android:layout_alignLeft="@+id/userRetweetCount"-->
-        <!--android:layout_alignStart="@+id/userRetweetCount"-->
-        <!--android:text="2344" />-->
-
-    <TextView
-        android:id="@+id/userTotalFollowersCount"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:textColor="@android:color/white"
-        android:text="332 followers" />
-
-    <TextView
-        android:id="@+id/userTotalFriendsCount"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/userTotalFollowersCount"
-        android:textColor="@android:color/white"
-        android:text="22333 friends" />
-
-
+    </FrameLayout>
 </RelativeLayout>

@@ -73,6 +73,14 @@ public class TwitterRestClient extends OAuthBaseClient {
 		client.get(apiUrl, params, handler);
 	}
 
+	public void getUserTimeline(String screenName, AsyncHttpResponseHandler handler) {
+		String apiUrl = getApiUrl("statuses/user_timeline.json");
+		RequestParams params = new RequestParams();
+		params.put("count", 25);
+		params.put("screen_name", screenName);
+		client.get(apiUrl, params, handler);
+	}
+
 	public void postTweet(String status, AsyncHttpResponseHandler handler) {
 		String apiUrl = getApiUrl("statuses/update.json");
 		// Can specify query string params directly or through RequestParams.

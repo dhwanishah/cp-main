@@ -15,40 +15,39 @@ import org.json.JSONObject;
 import cz.msebera.android.httpclient.Header;
 
 /**
- * Created by DhwaniShah on 3/29/17.
+ * Created by DhwaniShah on 3/31/17.
  */
 
-public class HomeTimelineFragment extends TweetsListFragment {
-
+public class UserTimelineFragment extends TweetsListFragment {
     TwitterRestClient twitterRestClient;
 
-    public static long mLastSinceId;
-    public static long mLastMaxId;
-    long newMaxId;
-
-    public long getNewMaxId() {
-        return newMaxId;
+    // Creates a new fragment given an int and title
+    // DemoFragment.newInstance(5, "Hello");
+    public static UserTimelineFragment newInstance(String screenName) {
+        UserTimelineFragment userTimelineFragment = new UserTimelineFragment();
+        Bundle args = new Bundle();
+        args.putString("screenName", screenName);
+        userTimelineFragment.setArguments(args);
+        return userTimelineFragment;
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mLastSinceId = 1;
-        mLastMaxId = 1;
+//        mLastSinceId = 1;
+//        mLastMaxId = 1;
         twitterRestClient = TwitterRestApplication.getRestClient();
-        populateTheHomeTimeline(25, mLastSinceId, mLastMaxId);
+        populateTheHomeTimeline();
 
     }
 
-    public void populateTheHomeTimeline(int count, final long sinceId, long maxId) {
-//        if (mLastSinceId != 1) {
-//            newMaxId = mLastSinceId - 1;
-//            mLastMaxId = newMaxId;
-//        }
-        twitterRestClient.getHomeTimeline(count, sinceId, maxId, new JsonHttpResponseHandler() {
+    public void populateTheHomeTimeline() {
+        String screenName = getArguments().getString("screenName");
+
+        twitterRestClient.getUserTimeline(screenName, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
-                Log.e("DEBUG", response.toString());
+                Log.e("DEBUG_GETMENTIONS", response.toString());
                 clearAndResetTweetsList(Tweet.fromJsonArray(response));//845130414020747264, 38803325
                 // TODO : START HERE->mLastMaxId = mLastSinceId;
                 //tweetsList.addAll(Tweet.fromJsonArray(response));
@@ -60,13 +59,5 @@ public class HomeTimelineFragment extends TweetsListFragment {
                 super.onFailure(statusCode, headers, throwable, errorResponse);
             }
         });
-    }
-
-    public void addNewTweetToList(JSONObject response) {
-        //Log.e("OnAddNewTweet", response.toString() + "\n" + tweetsList.toString());
-        tweetsList.add(0, Tweet.fromJson(response));
-        homeTimelineAdapter.notifyItemInserted(0);
-        homeTimelineList.scrollToPosition(0);
-        scrollListener.resetState();
     }
 }
