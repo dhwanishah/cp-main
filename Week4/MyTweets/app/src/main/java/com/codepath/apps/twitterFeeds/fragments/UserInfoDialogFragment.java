@@ -3,6 +3,7 @@ package com.codepath.apps.twitterFeeds.fragments;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,6 +43,18 @@ public class UserInfoDialogFragment extends DialogFragment  {
         args.putString("tweetPostTitle", tweetTitle);
         frag.setArguments(args);
         return frag;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (savedInstanceState == null) {
+            UserTimelineFragment userTimelineFragment = UserTimelineFragment.newInstance(mCurrentUserInfo.getScreenName());
+            //FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+            FragmentTransaction ft = getChildFragmentManager().beginTransaction();
+            ft.replace(R.id.userTimelineContainer, userTimelineFragment);
+            ft.commit();
+        }
     }
 
     @Nullable
