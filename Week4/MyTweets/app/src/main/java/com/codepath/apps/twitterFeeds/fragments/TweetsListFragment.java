@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,8 +16,17 @@ import com.codepath.apps.twitterFeeds.TwitterRestClient;
 import com.codepath.apps.twitterFeeds.adapters.HomeTimelineAdapter;
 import com.codepath.apps.twitterFeeds.models.Tweet;
 import com.codepath.apps.twitterFeeds.utils.EndlessRecyclerViewScrollListener;
+import com.loopj.android.http.JsonHttpResponseHandler;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+
+import cz.msebera.android.httpclient.Header;
+
+import static com.codepath.apps.twitterFeeds.fragments.HomeTimelineFragment.mLastMaxId;
+import static com.codepath.apps.twitterFeeds.fragments.HomeTimelineFragment.mLastSinceId;
 
 /**
  * Created by DhwaniShah on 3/28/17.
@@ -59,11 +69,13 @@ public class TweetsListFragment extends Fragment {
                 // Triggered only when new data needs to be appended to the list
                 // Add whatever code is needed to append new items to the bottom of the list
 
-                /*Log.e("F", mLastMaxId + " " + (mLastSinceId-1) + " " + newMaxId);
+                //Log.e("F", mLastMaxId + " " + (mLastSinceId-1) + " " + newMaxId);
                 //mLastMaxId = mLastSinceId - 1;
+
+                mLastMaxId = tweetsList.get(tweetsList.size()-1).getId();
                 populateTheHomeTimeline(25, mLastSinceId, mLastMaxId);
-                Log.e("A", mLastMaxId + " " + (mLastSinceId-1) + " " + newMaxId);
-                Log.e("H", "hit");*/
+                //Log.e("A", mLastMaxId + " " + (mLastSinceId-1) + " " + newMaxId);
+                //Log.e("H", "hit");
             }
         };
 
@@ -71,6 +83,24 @@ public class TweetsListFragment extends Fragment {
         homeTimelineList.addOnScrollListener(scrollListener);
 
         return v;
+    }
+
+    private void populateTheHomeTimeline(int count, long sinceId, long maxId) {
+        twitterRestClient.getHomeTimelineMaxId(count, maxId, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+                Log.e("DEBUG", response.toString());
+                clearAndResetTweetsList(Tweet.fromJsonArray(response));//845130414020747264, 38803325
+                // TODO : START HERE->mLastMaxId = mLastSinceId;
+                //tweetsList.addAll(Tweet.fromJsonArray(response));
+                //homeTimelineAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                super.onFailure(statusCode, headers, throwable, errorResponse);
+            }
+        });
     }
 
     @Override

@@ -65,10 +65,6 @@ public class HomeTimelineAdapter extends RecyclerView.Adapter<HomeTimelineAdapte
             @Override
             public void onClick(View v) {
                 mClickListener.onProfileImageSelected(tweet.getUser().getScreenName());
-                //Toast.makeText(mContext, "C " + tweet.getUser().getScreenName(), Toast.LENGTH_SHORT).show();
-//                Intent i = new Intent(mContext, ProfileViewActivity.class);
-//                i.putExtra("screenName", tweet.getUser().getScreenName());
-//                mContext.startActivity(i);
             }
         });
 

@@ -37,7 +37,6 @@ public class HomeTimelineFragment extends TweetsListFragment {
         mLastMaxId = 1;
         twitterRestClient = TwitterRestApplication.getRestClient();
         populateTheHomeTimeline(25, mLastSinceId, mLastMaxId);
-
     }
 
     public void populateTheHomeTimeline(int count, final long sinceId, long maxId) {
@@ -45,6 +44,7 @@ public class HomeTimelineFragment extends TweetsListFragment {
 //            newMaxId = mLastSinceId - 1;
 //            mLastMaxId = newMaxId;
 //        }
+        Log.e("Main parent", "Does alot");
         twitterRestClient.getHomeTimeline(count, sinceId, maxId, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
