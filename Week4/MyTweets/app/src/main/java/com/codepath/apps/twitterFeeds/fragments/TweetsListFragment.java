@@ -80,5 +80,4 @@ public class TweetsListFragment extends Fragment {
         //mLastSinceId++;
         //mLastMaxId = mLastSinceId;
     }
-
 }

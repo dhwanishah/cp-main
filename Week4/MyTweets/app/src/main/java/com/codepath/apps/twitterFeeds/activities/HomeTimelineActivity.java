@@ -18,6 +18,7 @@ import com.astuetz.PagerSlidingTabStrip;
 import com.codepath.apps.twitterFeeds.R;
 import com.codepath.apps.twitterFeeds.TwitterRestApplication;
 import com.codepath.apps.twitterFeeds.TwitterRestClient;
+import com.codepath.apps.twitterFeeds.adapters.HomeTimelineAdapter;
 import com.codepath.apps.twitterFeeds.fragments.ComposeTweetDialogFragment;
 import com.codepath.apps.twitterFeeds.fragments.HomeTimelineFragment;
 import com.codepath.apps.twitterFeeds.fragments.MentionsTimelineFragment;
@@ -29,7 +30,7 @@ import org.json.JSONObject;
 
 import cz.msebera.android.httpclient.Header;
 
-public class HomeTimelineActivity extends AppCompatActivity {
+public class HomeTimelineActivity extends AppCompatActivity implements HomeTimelineAdapter.OnItemSelectedListener {
 
     HomeTimelineFragment homeTimelineFragment;
     TwitterRestClient twitterRestClient;
@@ -42,6 +43,8 @@ public class HomeTimelineActivity extends AppCompatActivity {
 
     ViewPager tabsViewPager;
     PagerSlidingTabStrip tabStrip;
+
+    String mActiveScreenName = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,9 +102,10 @@ public class HomeTimelineActivity extends AppCompatActivity {
         });
     }
 
-    public void showUserInfoDialog() {
+    public void showUserInfoDialog(String screenName) {
+        screenName = (screenName == null) ? mCurrentUserInfo.getScreenName() : screenName;
         FragmentManager fm = getSupportFragmentManager();
-        userInfoDialogFragment = UserInfoDialogFragment.newInstance("User Info", mCurrentUserInfo);
+        userInfoDialogFragment = UserInfoDialogFragment.newInstance("User Info", screenName, mCurrentUserInfo);
         userInfoDialogFragment.setStyle(DialogFragment.STYLE_NORMAL, R.style.Dialog_FullScreen);
         userInfoDialogFragment.show(fm, "fragment_compose_tweet");
     }
@@ -150,11 +154,16 @@ public class HomeTimelineActivity extends AppCompatActivity {
         // Handle item selection
         switch (item.getItemId()) {
             case R.id.userInfo:
-                showUserInfoDialog();
+                showUserInfoDialog(null);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public void onProfileImageSelected(String screenName) {
+        Log.e("onProfileImageSelected", screenName);
     }
 
     public class TweetsPagerAdapter extends FragmentPagerAdapter {

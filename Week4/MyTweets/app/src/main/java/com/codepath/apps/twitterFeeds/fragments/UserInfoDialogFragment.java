@@ -33,11 +33,14 @@ public class UserInfoDialogFragment extends DialogFragment  {
     private TextView mFriendsCount;
     private TextView mFollowersCount;
 
+    private static String mScreenName;
+
     public UserInfoDialogFragment() {
     }
 
-    public static UserInfoDialogFragment newInstance(String tweetTitle, User currentUserInfo) {
+    public static UserInfoDialogFragment newInstance(String tweetTitle, String screenName, User currentUserInfo) {
         mCurrentUserInfo = currentUserInfo;
+        mScreenName = screenName;
         UserInfoDialogFragment frag = new UserInfoDialogFragment();
         Bundle args = new Bundle();
         args.putString("tweetPostTitle", tweetTitle);
@@ -47,9 +50,10 @@ public class UserInfoDialogFragment extends DialogFragment  {
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
+        mScreenName = (mScreenName == null) ? mCurrentUserInfo.getScreenName() : mScreenName;
         super.onCreate(savedInstanceState);
         if (savedInstanceState == null) {
-            UserTimelineFragment userTimelineFragment = UserTimelineFragment.newInstance(mCurrentUserInfo.getScreenName());
+            UserTimelineFragment userTimelineFragment = UserTimelineFragment.newInstance(mScreenName);
             //FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
             FragmentTransaction ft = getChildFragmentManager().beginTransaction();
             ft.replace(R.id.userTimelineContainer, userTimelineFragment);

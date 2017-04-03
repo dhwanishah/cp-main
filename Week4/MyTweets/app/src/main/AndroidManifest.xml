@@ -8,13 +8,13 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
-        android:name="com.codepath.apps.twitterFeeds.TwitterRestApplication"
+        android:name=".TwitterRestApplication"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
         <activity
-            android:name="com.codepath.apps.twitterFeeds.activities.LoginActivity"
+            android:name=".activities.LoginActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -34,8 +34,8 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.codepath.apps.twitterFeeds.activities.HomeTimelineActivity"
-            android:windowSoftInputMode="adjustResize"></activity>
+            android:name=".activities.HomeTimelineActivity"
+            android:windowSoftInputMode="adjustResize" />
     </application>
 
 </manifest>

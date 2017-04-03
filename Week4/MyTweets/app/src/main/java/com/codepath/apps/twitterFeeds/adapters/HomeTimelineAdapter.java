@@ -25,10 +25,15 @@ public class HomeTimelineAdapter extends RecyclerView.Adapter<HomeTimelineAdapte
 
     private List<Tweet> mTweets;
     private Context mContext;
+    private OnItemSelectedListener mClickListener;
 
     public HomeTimelineAdapter(Context context, List<Tweet> tweets) {
         this.mContext = context;
         this.mTweets = tweets;
+    }
+
+    public interface OnItemSelectedListener {
+        public void onProfileImageSelected(String screenName);
     }
 
     @Override
@@ -42,7 +47,7 @@ public class HomeTimelineAdapter extends RecyclerView.Adapter<HomeTimelineAdapte
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Tweet tweet = mTweets.get(position);
+        final Tweet tweet = mTweets.get(position);
 
         ImageView profileImage = holder.profileImage;
         profileImage.setImageResource(0);
@@ -52,6 +57,16 @@ public class HomeTimelineAdapter extends RecyclerView.Adapter<HomeTimelineAdapte
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .bitmapTransform(new CropCircleTransformation(mContext))
                 .into(profileImage);
+        profileImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mClickListener.onProfileImageSelected(tweet.getUser().getScreenName());
+                //Toast.makeText(mContext, "C " + tweet.getUser().getScreenName(), Toast.LENGTH_SHORT).show();
+//                Intent i = new Intent(mContext, ProfileViewActivity.class);
+//                i.putExtra("screenName", tweet.getUser().getScreenName());
+//                mContext.startActivity(i);
+            }
+        });
 
         TextView name = holder.name;
         name.setText(tweet.getUser().getName());
