@@ -18,10 +18,10 @@ import com.astuetz.PagerSlidingTabStrip;
 import com.codepath.apps.twitterFeeds.R;
 import com.codepath.apps.twitterFeeds.TwitterRestApplication;
 import com.codepath.apps.twitterFeeds.TwitterRestClient;
-import com.codepath.apps.twitterFeeds.adapters.HomeTimelineAdapter;
 import com.codepath.apps.twitterFeeds.fragments.ComposeTweetDialogFragment;
 import com.codepath.apps.twitterFeeds.fragments.HomeTimelineFragment;
 import com.codepath.apps.twitterFeeds.fragments.MentionsTimelineFragment;
+import com.codepath.apps.twitterFeeds.fragments.TweetsListFragment;
 import com.codepath.apps.twitterFeeds.fragments.UserInfoDialogFragment;
 import com.codepath.apps.twitterFeeds.models.User;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -30,7 +30,7 @@ import org.json.JSONObject;
 
 import cz.msebera.android.httpclient.Header;
 
-public class HomeTimelineActivity extends AppCompatActivity implements HomeTimelineAdapter.OnItemSelectedListener {
+public class HomeTimelineActivity extends AppCompatActivity {
 
     HomeTimelineFragment homeTimelineFragment;
     TwitterRestClient twitterRestClient;
@@ -39,12 +39,11 @@ public class HomeTimelineActivity extends AppCompatActivity implements HomeTimel
     ComposeTweetDialogFragment composeTweetDialogFragment;
     UserInfoDialogFragment userInfoDialogFragment;
 
-    private User mCurrentUserInfo;
+    public User mCurrentUserInfo;
+    public User mAnyUserInfo;
 
     ViewPager tabsViewPager;
     PagerSlidingTabStrip tabStrip;
-
-    String mActiveScreenName = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +60,12 @@ public class HomeTimelineActivity extends AppCompatActivity implements HomeTimel
 
         if (savedInstanceState == null) {
             homeTimelineFragment = new HomeTimelineFragment();
+            homeTimelineFragment.setCustomObjectListener(new TweetsListFragment.OnItemSelectedListener() {
+                @Override
+                public void onProfileImageSelected(String screenName) {
+                    getAnyUserInfoAndStore(screenName);
+                }
+            });
         }
 
 //        composeTweetButton.setOnClickListener(new View.OnClickListener() {
@@ -102,10 +107,11 @@ public class HomeTimelineActivity extends AppCompatActivity implements HomeTimel
         });
     }
 
-    public void showUserInfoDialog(String screenName) {
+    public void showUserInfoDialog(String screenName, User userInfo) {
         screenName = (screenName == null) ? mCurrentUserInfo.getScreenName() : screenName;
+        userInfo = (userInfo == null) ? mCurrentUserInfo : userInfo;
         FragmentManager fm = getSupportFragmentManager();
-        userInfoDialogFragment = UserInfoDialogFragment.newInstance("User Info", screenName, mCurrentUserInfo);
+        userInfoDialogFragment = UserInfoDialogFragment.newInstance("User Info", screenName, userInfo);
         userInfoDialogFragment.setStyle(DialogFragment.STYLE_NORMAL, R.style.Dialog_FullScreen);
         userInfoDialogFragment.show(fm, "fragment_compose_tweet");
     }
@@ -116,6 +122,22 @@ public class HomeTimelineActivity extends AppCompatActivity implements HomeTimel
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 mCurrentUserInfo = User.fromJson(response);
                 Log.e("sdf", mCurrentUserInfo.getName() + " " + mCurrentUserInfo.getProfileImageUrl() + " " + mCurrentUserInfo.getScreenName() + " " + mCurrentUserInfo.getUid());
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                super.onFailure(statusCode, headers, throwable, errorResponse);
+            }
+        });
+    }
+
+    private void getAnyUserInfoAndStore(String screenName) {
+        twitterRestClient.getAnyUserInfo(screenName, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                mAnyUserInfo = User.fromJson(response);
+                //Log.e("Any", mAnyUserInfo.getName() + " " + mAnyUserInfo.getProfileImageUrl() + " " + mAnyUserInfo.getScreenName() + " " + mAnyUserInfo.getUid());
+                showUserInfoDialog(mAnyUserInfo.getScreenName(), mAnyUserInfo);
             }
 
             @Override
@@ -154,17 +176,17 @@ public class HomeTimelineActivity extends AppCompatActivity implements HomeTimel
         // Handle item selection
         switch (item.getItemId()) {
             case R.id.userInfo:
-                showUserInfoDialog(null);
+                showUserInfoDialog(null, null);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
-    @Override
-    public void onProfileImageSelected(String screenName) {
-        Log.e("onProfileImageSelected", screenName);
-    }
+//    @Override
+//    public void onProfileImageSelected(String screenName) {
+//        Log.e("onProfileImageSelected", screenName);
+//    }
 
     public class TweetsPagerAdapter extends FragmentPagerAdapter {
 

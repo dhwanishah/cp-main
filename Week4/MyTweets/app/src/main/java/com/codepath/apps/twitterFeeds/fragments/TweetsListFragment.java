@@ -33,6 +33,16 @@ public class TweetsListFragment extends Fragment {
 
     EndlessRecyclerViewScrollListener scrollListener;
 
+
+    private OnItemSelectedListener mClickListener;
+    public interface OnItemSelectedListener {
+        public void onProfileImageSelected(String screenName);
+    }
+
+    public void setCustomObjectListener(OnItemSelectedListener listener) {
+        this.mClickListener = listener;
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup parent, @Nullable Bundle savedInstanceState) {
@@ -70,6 +80,17 @@ public class TweetsListFragment extends Fragment {
         twitterRestClient = TwitterRestApplication.getRestClient();
         tweetsList = new ArrayList<>();
         homeTimelineAdapter = new HomeTimelineAdapter(getActivity(), tweetsList);
+        homeTimelineAdapter.setCustomObjectListener(new HomeTimelineAdapter.OnItemSelectedListener() {
+            @Override
+            public void onProfileImageSelected(String screenName) {
+                //Log.e("onProfileImageSelected", screenName);
+                mClickListener.onProfileImageSelected(screenName);
+//                FragmentManager fm = getActivity().getSupportFragmentManager();
+//                userInfoDialogFragment = UserInfoDialogFragment.newInstance("User Info", screenName, ((HomeTimelineActivity) getActivity().getRe);
+//                userInfoDialogFragment.setStyle(DialogFragment.STYLE_NORMAL, R.style.Dialog_FullScreen);
+//                userInfoDialogFragment.show(fm, "fragment_compose_tweet");
+            }
+        });
     }
 
     public void clearAndResetTweetsList(ArrayList<Tweet> newTweetsList) {

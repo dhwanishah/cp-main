@@ -36,6 +36,10 @@ public class HomeTimelineAdapter extends RecyclerView.Adapter<HomeTimelineAdapte
         public void onProfileImageSelected(String screenName);
     }
 
+    public void setCustomObjectListener(OnItemSelectedListener listener) {
+        this.mClickListener = listener;
+    }
+
     @Override
     public HomeTimelineAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Context context = parent.getContext();

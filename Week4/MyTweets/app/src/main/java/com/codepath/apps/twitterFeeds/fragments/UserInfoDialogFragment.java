@@ -43,7 +43,7 @@ public class UserInfoDialogFragment extends DialogFragment  {
         mScreenName = screenName;
         UserInfoDialogFragment frag = new UserInfoDialogFragment();
         Bundle args = new Bundle();
-        args.putString("tweetPostTitle", tweetTitle);
+        args.putString("tweetPostTitle", mScreenName);
         frag.setArguments(args);
         return frag;
     }
@@ -79,15 +79,15 @@ public class UserInfoDialogFragment extends DialogFragment  {
                 .bitmapTransform(new CropCircleTransformation(getContext()))
                 .into(mCurrentUserProfileImage);
 
-        mCurrentUserScreenName = (TextView) view.findViewById(R.id.currentName);
-        mCurrentUserScreenName.setText(mCurrentUserInfo.getScreenName());
+        //mCurrentUserScreenName = (TextView) view.findViewById(R.id.currentName);
+        //mCurrentUserScreenName.setText(mCurrentUserInfo.getScreenName());
         mName = (TextView) view.findViewById(R.id.currentName);
         mName.setText(mCurrentUserInfo.getName());
         mTagline = (TextView) view.findViewById(R.id.userTagline);
         mTagline.setText(mCurrentUserInfo.getDescription());
 
-        mFavoriteCount = (TextView) view.findViewById(R.id.userTotalFavoriteCount);
-        mFavoriteCount.setText(String.valueOf(mCurrentUserInfo.getFavoriteCount()));
+        //mFavoriteCount = (TextView) view.findViewById(R.id.userTotalFavoriteCount);
+        //mFavoriteCount.setText(String.valueOf(mCurrentUserInfo.getFavoriteCount()));
         mFriendsCount = (TextView) view.findViewById(R.id.userTotalFriendsCount);
         mFriendsCount.setText(String.valueOf(mCurrentUserInfo.getFavoriteCount()) + " friends");
         mFollowersCount = (TextView) view.findViewById(R.id.userTotalFollowersCount);
